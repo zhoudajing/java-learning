@@ -1,5 +1,5 @@
 import java.util.HashMap;
-public class leetcode_TowSum_hashmap {
+public class leetcode_TwoSum_hashmap {
     public static void main(String[] args){
         HashMap<Integer,Integer> map=new HashMap<>();
         int[] nums={1,2,3,4,5,6,7,8,9,10};

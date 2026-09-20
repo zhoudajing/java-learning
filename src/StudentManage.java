@@ -8,8 +8,9 @@ public class StudentManage {
             System.out.println("--- 学生管理系统 ---");
             System.out.println("1. 添加学生");
             System.out.println("2. 查询学生");
-            System.out.println("3. 删除学生"); // 新增
-            System.out.println("4. 退出");     // 原来的3变成4
+            System.out.println("3. 删除学生");
+            System.out.println("4. 修改学生"); // 新增
+            System.out.println("5. 退出");
             int choice = input.nextInt();
             switch(choice){
                 case 1:
@@ -59,7 +60,29 @@ public class StudentManage {
                         System.out.println("未找到学号为 " + delId + " 的学生，请检查学号！");
                     }
                     break;
-                case 4:
+                    case 4:
+                        System.out.print("请输入你要修改的学号");
+                       int updateId=input.nextInt();
+                        boolean isUpdate=false;
+                        for(int i=0;i<students.size();i++){
+                            Student s=students.get(i);
+                            if(s.getId()==updateId){
+                                System.out.print("请输入新的姓名：");
+                                String newName=input.next();
+                                System.out.print("请输入新的年龄：");
+                                int newAge=input.nextInt();
+                                s.setAge(newAge);
+                                s.setName(newName);
+                                System.out.println("修改成功！");
+                                isUpdate=true;
+
+                            }
+                        }
+                        if (!isUpdate) {
+                            System.out.println("未找到学号为 " + updateId + " 的学生。");
+                        }
+                        break;
+                case 5:
                     System.out.print("退出系统");
                     System.exit(0);
                 default:

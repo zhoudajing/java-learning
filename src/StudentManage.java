@@ -1,6 +1,23 @@
 import java.util.ArrayList;
+import java.io.*;
 import java.util.Scanner;
 public class StudentManage {
+    public static void saveData(ArrayList<Student> students){
+        try{
+            BufferedWriter bw =new BufferedWriter(new FileWriter("students.txt"));
+            for(int i=0;i<students.size();i++){
+                Student s=students.get(i);
+                bw.write(s.getName()+","+s.getId()+","+s.getAge());
+                bw.newLine();
+            }
+            bw.close();
+            System.out.println("数据保存成功");
+        }catch (IOException e){
+            System.out.println("数据保存失败");
+            e.printStackTrace();
+        }
+
+    }
     public static void main(String[] args){
         ArrayList<Student> students =new ArrayList<>();
         Scanner input = new Scanner(System.in);
@@ -11,6 +28,7 @@ public class StudentManage {
             System.out.println("3. 删除学生");
             System.out.println("4. 修改学生"); // 新增
             System.out.println("5. 退出");
+            System.out.println("6. 保存数据");
             int choice = input.nextInt();
             switch(choice){
                 case 1:
@@ -85,6 +103,9 @@ public class StudentManage {
                 case 5:
                     System.out.print("退出系统");
                     System.exit(0);
+                case 6:
+                    saveData(students); // 注意：你的 ArrayList 变量名可能是 students 也可能是 list，看你的代码
+                    break;
                 default:
                     System.out.print("输出有误，请重新输入");
 

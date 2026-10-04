@@ -2,6 +2,30 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 public class StudentManage {
+    static ArrayList<Student> students =new ArrayList<>();
+    public static void loadData(){
+        try(BufferedReader br=new BufferedReader (new FileReader("students.txt"))){
+            String line;
+            while ((line=br.readLine())!=null){
+                String[] parts=line.split(",");
+                if(parts.length!=3){
+                    System.out.println("这一行数据有问题，跳过");
+                    continue;
+                }
+                int id=Integer.parseInt(parts[1].trim());
+                int age=Integer.parseInt(parts[2].trim());
+                String name=parts[0].trim();
+                Student s=new Student(name,id,age);
+                students.add(s);
+            }
+            System.out.println("成功加载 " + students.size() + " 条历史数据！");
+        }catch(IOException e){
+            System.out.println("还没有历史数据，我们开始新建吧！");
+        }
+
+
+    }
+
     public static void saveData(ArrayList<Student> students){
         try{
             BufferedWriter bw =new BufferedWriter(new FileWriter("students.txt"));
@@ -19,8 +43,10 @@ public class StudentManage {
 
     }
     public static void main(String[] args){
-        ArrayList<Student> students =new ArrayList<>();
+
         Scanner input = new Scanner(System.in);
+
+        loadData(); // 或者你的方法名 LoadData()
         while(true){
             System.out.println("--- 学生管理系统 ---");
             System.out.println("1. 添加学生");

@@ -43,6 +43,15 @@
 - ✅ LeetCode完成“有效的括号”，理解栈（LIFO）在括号匹配中的应用。
 - ✅ 理解IO流（BufferedWriter/FileWriter）与异常处理（try-catch）。
 - ✅ 完成学生管理系统“数据保存”功能，成功生成 `students.txt` 并写入数据。
+### 第5天（2026-09-29）
+- ✅ LeetCode完成“合并两个有序链表”，本地 IDEA 测试通过，并在 LeetCode 击败 100%。
+- ✅ 理解了 `ListNode` 链表节点定义，学会了 `buildList` 和 `printList` 辅助测试。
+- ✅ 完成学生管理系统“加载数据”功能：用 `BufferedReader` 读取 `students.txt`，`split(",")` 拆分，`new Student(...)` 重建对象并放回 `ArrayList`。
+- 💡 卡点复盘：`while ((line = br.readLine()) != null)` 要加小括号；方法缺少 `return` 报错；`printList` 忘记定义。
+
+## 🚀 下一步最小行动（第6天预排）
+- 算法：LeetCode“回文链表”或“环形链表”（继续巩固指针与快慢指针）。
+- 项目：在学生管理系统里引入继承（比如加个 `Person` 父类），或者把菜单操作单独抽出方法，让 `main` 更清爽。
 
 ## 📅 今日任务（第5天，2026-09-29）
 - [ ] **算法（1小时）**：LeetCode“合并两个有序链表”（理解链表指针操作）。

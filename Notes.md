@@ -61,17 +61,22 @@
 - 💡 卡点复盘：`toString()` 不能修改字段，不能带有参数的 `super.toString(...)`；`super(...)` 必须放在子类构造器第一行；子类不能直接访问父类的 private 字段。
 ### 第7天（2026-10-06）
 - ✅ LeetCode完成“回文链表” (234)，AC。理解快慢指针找中点 + 反转后半段的核心思路。
+- ✅ LeetCode完成“环形链表 II” (142)，AC。理解快慢指针找相遇点 + 同速找环入口的逻辑。
 - ✅ 深入理解为什么不能反转整条链表：`reverse` 是原地修改，会把原链表破坏，导致无法对照比较。
 - ✅ 修复 `reverse` 中 `while(head != null)` 的 bug：循环条件要跟着正在移动的 `cur`，而不是不动的 `head`。
 - ✅ 读懂两种 NPE：`Cannot assign field "next" because "cur" is null`（写不进去）和 `Cannot read field "next" because "cur" is null`（读不出来）。
-- ✅ 理解回文链表优化方向：反转起点应为 `slow.next`，比较边界用后半段，最后可恢复链表。
+- ✅ 深入理解“追及”与“会合”的本质区别，搞懂为什么两个同速指针能在入环点相遇。
+- ✅ 理解公式 `a = n*c - b` 的推导过程，并知道即使不背公式，也可以用哈希表或将其作为黑盒结论使用。
 - ✅ 项目重构：抽出 `addStudent(ArrayList<Student>, Scanner)`、`deleteStudent(ArrayList<Student>, Scanner)`、`updateStudent(ArrayList<Student>, Scanner)` 三个方法。
 - ✅ 在 `updateStudent` 中补上 `break`，避免重复修改多个同号学生。
-- 💡 卡点复盘：`buildList` 里 `cur` 初始化成 `null` 会 NPE，应指向 `dummy`；`reverse` 循环条件要跟着 `cur` 走；回文链表不能反转整条，因为会破坏原链表。
+- ✅ 学习 `static` 关键字：类的成员 vs 对象的成员，`main` 为什么必须是 static。
+- ✅ 学习多态：编译看左边，运行看右边，三个前提（继承、重写、父类引用指向子类对象）。
+- ✅ 本地 IDE 搭测试环境：重构成 `buildList(ArrayList<Integer>)`，自己用 Scanner 输入构建链表，用快慢指针本地跑 142，并手动造环验证。
+- 💡 卡点复盘：`buildList` 里 `cur` 初始化成 `null` 会 NPE，应指向 `dummy`；`reverse` 循环条件要跟着 `cur` 走；回文链表不能反转整条，因为会破坏原链表；本地测试链表时，要手动造环才能验证“有环”情况；找到入环点后要 `return`，避免死循环。
 - 💡 待办：回文链表的优化点（恢复链表、反转 `slow.next`）还没落地，可以第8天补。
 
 ## 🚀 下一步最小行动（第8天预排）
-- 算法：LeetCode 142“环形链表 II”（快慢指针找环入口），或继续优化回文链表（恢复链表 + 反转 `slow.next`）。
+- 算法：继续优化回文链表（恢复链表 + 反转 `slow.next`），或者做一道新的链表题。
 - 项目：继续抽 `case 2`（查询）和 `case 6`（保存数据），让 `main` 里的 `switch` 只剩一行行方法调用。
 - 小提醒：`students` 已是静态成员变量，`addStudent` 等方法里的 `students` 参数可以省掉，明天可以想想哪种更清爽。
 

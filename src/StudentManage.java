@@ -84,7 +84,7 @@ public class StudentManage {
 
     }
 
-    public static void saveData(ArrayList<Student> students){
+    public static void saveData(){
         try{
             BufferedWriter bw =new BufferedWriter(new FileWriter("students.txt"));
             for(int i=0;i<students.size();i++){
@@ -139,7 +139,7 @@ public class StudentManage {
                     System.out.print("退出系统");
                     System.exit(0);
                 case 6:
-                    saveData(students); // 注意：你的 ArrayList 变量名可能是 students 也可能是 list，看你的代码
+                    saveData(); // 注意：你的 ArrayList 变量名可能是 students 也可能是 list，看你的代码
                     break;
                 default:
                     System.out.print("输出有误，请重新输入");

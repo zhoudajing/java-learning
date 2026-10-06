@@ -24,15 +24,15 @@
 
 ## 🎯 总目标与当前阶段
 - **总目标**：2026.12前完成Java核心+LeetCode 100题+第一个Spring Boot项目，开始投日常实习。
-- **当前阶段**：第1阶段：Java基础与算法入门，第1周第6天（已完成），准备进入第7天。
+- **当前阶段**：第1阶段：Java基础与算法入门，第1周第7天（已完成），准备进入第8天。
 
 ## 🗂️ 当前核心项目：控制台学生管理系统
 - **项目路径**：`D:\第一个Java项目\java-learning`
 - **代码结构**：
   - `Person.java`（父类）：包含name、age，有无参/全参构造、getter/setter、toString。
   - `Student.java`（实体类）：继承自 `Person`，增加特有属性 `id`（int类型），有对应的无参/全参构造、getter/setter、复写了 `toString()`（利用 `super.toString()` 拼接 id）。
-  - `StudentManager.java`（主类）：包含菜单循环、switch分支，实现了增、删、改、查、退出、保存数据、读取数据。使用 `ArrayList<Student>` 存储数据。
-- **当前痛点/短板**：随着功能增多，`main` 方法里代码开始变得臃肿，需要抽出方法重构。
+  - `StudentManage.java`（主类）：包含菜单循环、switch分支，实现了增、删、改、查、退出、保存数据、读取数据。使用静态成员变量 `ArrayList<Student> students` 存储数据。
+- **当前痛点/短板**：`main` 方法里 `case 4`（修改）、`case 2`（查询）、`case 6`（保存）还没抽成方法，`main` 仍偏臃肿。
 
 ## ✅ 已完成进度
 ### 第1天（2026-09-18）
@@ -59,10 +59,20 @@
 - ✅ 项目重构后数据读取与菜单功能正常。
 - ✅ Git 提交推送成功：`Day6:做完leetcode的环形链表，把学生管理系统给优化，写了Person.java将重复的属性抽离+更新学习总控`。
 - 💡 卡点复盘：`toString()` 不能修改字段，不能带有参数的 `super.toString(...)`；`super(...)` 必须放在子类构造器第一行；子类不能直接访问父类的 private 字段。
+### 第7天（2026-10-06）
+- ✅ LeetCode完成“回文链表” (234)，AC。理解快慢指针找中点 + 反转后半段的核心思路。
+- ✅ 深入理解为什么不能反转整条链表：`reverse` 是原地修改，会把原链表破坏，导致无法对照比较。
+- ✅ 修复 `reverse` 中 `while(head != null)` 的 bug：循环条件要跟着正在移动的 `cur`，而不是不动的 `head`。
+- ✅ 读懂两种 NPE：`Cannot assign field "next" because "cur" is null`（写不进去）和 `Cannot read field "next" because "cur" is null`（读不出来）。
+- ✅ 理解回文链表优化方向：反转起点应为 `slow.next`，比较边界用后半段，最后可恢复链表。
+- ✅ 项目重构：抽出 `addStudent(ArrayList<Student>, Scanner)` 和 `deleteStudent(ArrayList<Student>, Scanner)` 两个方法。
+- 💡 卡点复盘：`buildList` 里 `cur` 初始化成 `null` 会 NPE，应指向 `dummy`；`reverse` 循环条件要跟着 `cur` 走；回文链表不能反转整条，因为会破坏原链表。
+- 💡 待办：回文链表的优化点（恢复链表、反转 `slow.next`）还没落地，可以第8天补。
 
-## 🚀 下一步最小行动（第7天预排）
-- 算法：LeetCode“回文链表”或“环形链表 II”（继续巩固指针与快慢指针）。
-- 项目：把 `StudentManager` 中 `switch` 里的菜单操作单独抽出方法（如 `addStudent()`、`deleteStudent()` 等），让 `main` 更清爽，降低复杂度。
+## 🚀 下一步最小行动（第8天预排）
+- 算法：LeetCode 142“环形链表 II”（快慢指针找环入口），或继续优化回文链表（恢复链表 + 反转 `slow.next`）。
+- 项目：继续抽 `case 4` 修改、`case 2` 查询、`case 6` 保存数据，让 `main` 里的 `switch` 只留一行行方法调用。
+- 小提醒：`students` 已是静态成员变量，`addStudent` 和 `deleteStudent` 其实可以不传 `students` 参数，明天可以想想哪种更清爽。
 
 ## 🧪 周末探索模块（可选，不占用主线）
 - **目标**：为2027校招增加“Java后端+AI应用”差异化竞争力，不替代Java主线。

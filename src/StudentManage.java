@@ -2,6 +2,42 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 public class StudentManage {
+    private static void addStudent(ArrayList<Student> students, Scanner sc) {
+        System.out.print("请输入姓名：");
+        String name = sc.next();
+        System.out.print("请输入学号：");
+        int id = sc.nextInt();
+        System.out.print("请输入年龄：");
+        int age = sc.nextInt();
+
+        Student student = new Student(name, id, age); // 调用全参构造
+        students.add(student); // 存进 ArrayList
+        System.out.println("添加成功！");
+    }
+    private static void deleteStudent(ArrayList<Student> students, Scanner input) {
+        System.out.print("请输入要删除的学生学号：");
+        int delId = input.nextInt();
+
+        // 设置一个标记，看看有没有找到这个学生
+        boolean isFound = false;
+
+        // 遍历花名册
+        for (int i = 0; i < students.size(); i++) {
+            Student s = students.get(i);
+            // 如果这个学生的学号，和用户输入的学号一样
+            if (s.getId() == delId) {
+                students.remove(i);
+                isFound=true;
+                System.out.println("学号 " + delId + " 的学生已删除！");
+                break; // 找到并删除后，立刻结束循环（不用再找后面的了）
+            }
+        }
+
+        // 如果循环结束了，标记还是 false，说明没找到
+        if (!isFound) {
+            System.out.println("未找到学号为 " + delId + " 的学生，请检查学号！");
+        }
+    }
     static ArrayList<Student> students =new ArrayList<>();
     public static void loadData(){
         try(BufferedReader br=new BufferedReader (new FileReader("students.txt"))){
@@ -58,16 +94,7 @@ public class StudentManage {
             int choice = input.nextInt();
             switch(choice){
                 case 1:
-                    System.out.print("请输入姓名：");
-                    String name = input.next();
-                    System.out.print("请输入学号：");
-                    int id = input.nextInt();
-                    System.out.print("请输入年龄：");
-                    int age = input.nextInt();
-
-                    Student student = new Student(name, id, age); // 调用全参构造
-                    students.add(student); // 存进 ArrayList
-                    System.out.println("添加成功！");
+                    addStudent(students, input);
                     break;
                 case 2:
                     if (students.size() == 0) {
@@ -81,28 +108,7 @@ public class StudentManage {
                     }
                     break;
                 case 3:
-                    System.out.print("请输入要删除的学生学号：");
-                    int delId = input.nextInt();
-
-                    // 设置一个标记，看看有没有找到这个学生
-                    boolean isFound = false;
-
-                    // 遍历花名册
-                    for (int i = 0; i < students.size(); i++) {
-                        Student s = students.get(i);
-                        // 如果这个学生的学号，和用户输入的学号一样
-                        if (s.getId() == delId) {
-                            students.remove(i); // 从集合中删掉这个位置的学生
-                            isFound = true; // 标记为“找到了”
-                            System.out.println("学号 " + delId + " 的学生已删除！");
-                            break; // 找到并删除后，立刻结束循环（不用再找后面的了）
-                        }
-                    }
-
-                    // 如果循环结束了，标记还是 false，说明没找到
-                    if (!isFound) {
-                        System.out.println("未找到学号为 " + delId + " 的学生，请检查学号！");
-                    }
+                    deleteStudent(students, input);
                     break;
                     case 4:
                         System.out.print("请输入你要修改的学号");

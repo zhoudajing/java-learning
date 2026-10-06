@@ -2,6 +2,28 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 public class StudentManage {
+    private static void updateStudent(ArrayList<Student> students, Scanner input) {
+        System.out.print("请输入你要修改的学号");
+        int updateId=input.nextInt();
+        boolean isUpdate=false;
+        for(int i=0;i<students.size();i++){
+            Student s=students.get(i);
+            if(s.getId()==updateId){
+                System.out.print("请输入新的姓名：");
+                String newName=input.next();
+                System.out.print("请输入新的年龄：");
+                int newAge=input.nextInt();
+                s.setAge(newAge);
+                s.setName(newName);
+                System.out.println("修改成功！");
+                isUpdate=true;
+                break;
+            }
+        }
+        if (!isUpdate) {
+            System.out.println("未找到学号为 " + updateId + " 的学生。");
+        }
+    }
     private static void addStudent(ArrayList<Student> students, Scanner sc) {
         System.out.print("请输入姓名：");
         String name = sc.next();
@@ -111,26 +133,7 @@ public class StudentManage {
                     deleteStudent(students, input);
                     break;
                     case 4:
-                        System.out.print("请输入你要修改的学号");
-                       int updateId=input.nextInt();
-                        boolean isUpdate=false;
-                        for(int i=0;i<students.size();i++){
-                            Student s=students.get(i);
-                            if(s.getId()==updateId){
-                                System.out.print("请输入新的姓名：");
-                                String newName=input.next();
-                                System.out.print("请输入新的年龄：");
-                                int newAge=input.nextInt();
-                                s.setAge(newAge);
-                                s.setName(newName);
-                                System.out.println("修改成功！");
-                                isUpdate=true;
-
-                            }
-                        }
-                        if (!isUpdate) {
-                            System.out.println("未找到学号为 " + updateId + " 的学生。");
-                        }
+                        updateStudent(students, input);
                         break;
                 case 5:
                     System.out.print("退出系统");

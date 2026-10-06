@@ -31,8 +31,8 @@
 - **代码结构**：
   - `Person.java`（父类）：包含name、age，有无参/全参构造、getter/setter、toString。
   - `Student.java`（实体类）：继承自 `Person`，增加特有属性 `id`（int类型），有对应的无参/全参构造、getter/setter、复写了 `toString()`（利用 `super.toString()` 拼接 id）。
-  - `StudentManage.java`（主类）：包含菜单循环、switch分支，实现了增、删、改、查、退出、保存数据、读取数据。使用静态成员变量 `ArrayList<Student> students` 存储数据。
-- **当前痛点/短板**：`main` 方法里 `case 4`（修改）、`case 2`（查询）、`case 6`（保存）还没抽成方法，`main` 仍偏臃肿。
+  - `StudentManage.java`（主类）：包含菜单循环、switch分支，实现了增、删、改、查、退出、保存数据、读取数据。使用静态成员变量 `ArrayList<Student> students` 存储数据。已抽出 `addStudent()`、`deleteStudent()`、`updateStudent()` 三个方法。
+- **当前痛点/短板**：`case 2`（查询）和 `case 6`（保存）还没抽成方法；`students` 已是静态成员变量，方法参数可以进一步简化。
 
 ## ✅ 已完成进度
 ### 第1天（2026-09-18）
@@ -65,14 +65,15 @@
 - ✅ 修复 `reverse` 中 `while(head != null)` 的 bug：循环条件要跟着正在移动的 `cur`，而不是不动的 `head`。
 - ✅ 读懂两种 NPE：`Cannot assign field "next" because "cur" is null`（写不进去）和 `Cannot read field "next" because "cur" is null`（读不出来）。
 - ✅ 理解回文链表优化方向：反转起点应为 `slow.next`，比较边界用后半段，最后可恢复链表。
-- ✅ 项目重构：抽出 `addStudent(ArrayList<Student>, Scanner)` 和 `deleteStudent(ArrayList<Student>, Scanner)` 两个方法。
+- ✅ 项目重构：抽出 `addStudent(ArrayList<Student>, Scanner)`、`deleteStudent(ArrayList<Student>, Scanner)`、`updateStudent(ArrayList<Student>, Scanner)` 三个方法。
+- ✅ 在 `updateStudent` 中补上 `break`，避免重复修改多个同号学生。
 - 💡 卡点复盘：`buildList` 里 `cur` 初始化成 `null` 会 NPE，应指向 `dummy`；`reverse` 循环条件要跟着 `cur` 走；回文链表不能反转整条，因为会破坏原链表。
 - 💡 待办：回文链表的优化点（恢复链表、反转 `slow.next`）还没落地，可以第8天补。
 
 ## 🚀 下一步最小行动（第8天预排）
 - 算法：LeetCode 142“环形链表 II”（快慢指针找环入口），或继续优化回文链表（恢复链表 + 反转 `slow.next`）。
-- 项目：继续抽 `case 4` 修改、`case 2` 查询、`case 6` 保存数据，让 `main` 里的 `switch` 只留一行行方法调用。
-- 小提醒：`students` 已是静态成员变量，`addStudent` 和 `deleteStudent` 其实可以不传 `students` 参数，明天可以想想哪种更清爽。
+- 项目：继续抽 `case 2`（查询）和 `case 6`（保存数据），让 `main` 里的 `switch` 只剩一行行方法调用。
+- 小提醒：`students` 已是静态成员变量，`addStudent` 等方法里的 `students` 参数可以省掉，明天可以想想哪种更清爽。
 
 ## 🧪 周末探索模块（可选，不占用主线）
 - **目标**：为2027校招增加“Java后端+AI应用”差异化竞争力，不替代Java主线。

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 public class StudentManage {
-    private static void updateStudent(ArrayList<Student> students, Scanner input) {
+    private static void updateStudent( Scanner input) {
         System.out.print("请输入你要修改的学号");
         int updateId=input.nextInt();
         boolean isUpdate=false;
@@ -24,7 +24,7 @@ public class StudentManage {
             System.out.println("未找到学号为 " + updateId + " 的学生。");
         }
     }
-    private static void addStudent(ArrayList<Student> students, Scanner sc) {
+    private static void addStudent( Scanner sc) {
         System.out.print("请输入姓名：");
         String name = sc.next();
         System.out.print("请输入学号：");
@@ -36,7 +36,7 @@ public class StudentManage {
         students.add(student); // 存进 ArrayList
         System.out.println("添加成功！");
     }
-    private static void deleteStudent(ArrayList<Student> students, Scanner input) {
+    private static void deleteStudent( Scanner input) {
         System.out.print("请输入要删除的学生学号：");
         int delId = input.nextInt();
 
@@ -60,8 +60,43 @@ public class StudentManage {
             System.out.println("未找到学号为 " + delId + " 的学生，请检查学号！");
         }
     }
-    static ArrayList<Student> students =new ArrayList<>();
-    public static void loadData(){
+    private static void queryStudent(Scanner input){
+        if (students.size() == 0) {
+            System.out.println("暂无学生数据，请先添加！");
+            return;
+        }
+            System.out.println("1. 查看全部  2. 按学号查询");
+            System.out.print("请选择：");
+            int choice =input.nextInt();
+            if(choice ==1){
+                for(Student s:students){
+                    System.out.println(s);
+                }
+            }
+            else if(choice ==2){
+                boolean found = false;
+                System.out.println("请输入学号");
+                int Id=input.nextInt();
+                for(Student s:students){
+                    if(s.getId()==Id){
+                        System.out.println(s);
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    System.out.println("未找到学号为 " + Id + " 的学生。");
+                }
+
+            }
+            else{
+                System.out
+                        .println("输入有误");
+            }
+
+
+    }
+    private static ArrayList<Student> students =new ArrayList<>();
+    private static void loadData(){
         try(BufferedReader br=new BufferedReader (new FileReader("students.txt"))){
             String line;
             while ((line=br.readLine())!=null){
@@ -83,8 +118,7 @@ public class StudentManage {
 
 
     }
-
-    public static void saveData(){
+    private static void saveData(){
         try{
             BufferedWriter bw =new BufferedWriter(new FileWriter("students.txt"));
             for(int i=0;i<students.size();i++){
@@ -116,30 +150,23 @@ public class StudentManage {
             int choice = input.nextInt();
             switch(choice){
                 case 1:
-                    addStudent(students, input);
+                    addStudent( input);
                     break;
                 case 2:
-                    if (students.size() == 0) {
-                        System.out.println("暂无学生数据，请先添加！");
-                    } else {
-                        System.out.println("姓名\t学号\t年龄");
-                        for (int i = 0; i < students.size(); i++) {
-                            Student s = students.get(i);
-                            System.out.println(s); // 因为写了 toString，直接打印 s 即可
-                        }
-                    }
+                    queryStudent(input);
                     break;
                 case 3:
-                    deleteStudent(students, input);
+                    deleteStudent(input);
                     break;
                     case 4:
-                        updateStudent(students, input);
+                        updateStudent( input);
                         break;
                 case 5:
+                    saveData();
                     System.out.print("退出系统");
                     System.exit(0);
                 case 6:
-                    saveData(); // 注意：你的 ArrayList 变量名可能是 students 也可能是 list，看你的代码
+                    saveData();
                     break;
                 default:
                     System.out.print("输出有误，请重新输入");

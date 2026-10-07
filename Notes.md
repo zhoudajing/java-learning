@@ -1,4 +1,4 @@
-# Java后端学习总控（暖心陪伴版 V2.3）
+# Java后端学习总控（暖心陪伴版 V2.4）
 
 ## 🚀 启动指令（每次新对话，请先复制粘贴这一段）
 **“这是我的总控文件，我是软工24级，请根据上面的进度和沟通指南，继续带我执行今天的任务。”**
@@ -24,15 +24,21 @@
 
 ## 🎯 总目标与当前阶段
 - **总目标**：2026.12前完成Java核心+LeetCode 100题+第一个Spring Boot项目，开始投日常实习。
-- **当前阶段**：第1阶段：Java基础与算法入门，第1周第7天（已完成），准备进入第8天。
+- **当前阶段**：第1阶段：Java基础与算法入门，第1周第8天（已完成），准备进入第9天。
 
 ## 🗂️ 当前核心项目：控制台学生管理系统
 - **项目路径**：`D:\第一个Java项目\java-learning`
 - **代码结构**：
   - `Person.java`（父类）：包含name、age，有无参/全参构造、getter/setter、toString。
   - `Student.java`（实体类）：继承自 `Person`，增加特有属性 `id`（int类型），有对应的无参/全参构造、getter/setter、复写了 `toString()`（利用 `super.toString()` 拼接 id）。
-  - `StudentManage.java`（主类）：包含菜单循环、switch分支，实现了增、删、改、查、退出、保存数据、读取数据。使用静态成员变量 `ArrayList<Student> students` 存储数据。已抽出 `addStudent()`、`deleteStudent()`、`updateStudent()` 三个方法。
-- **当前痛点/短板**：`case 2`（查询）和 `case 6`（保存）还没抽成方法；`students` 已是静态成员变量，方法参数可以进一步简化。
+  - `StudentManage.java`（主类）：包含菜单循环、switch分支，实现了增、删、改、查、保存数据、读取数据。
+    - 静态成员变量 `private static ArrayList<Student> students`。
+    - 已抽出的方法：`addStudent(Scanner)`、`deleteStudent(Scanner)`、`updateStudent(Scanner)`、`queryStudent(Scanner)`、`saveData()`、`loadData()`。
+    - `queryStudent` 支持“查看全部”和“按学号查询”，用 `if / else if / else` 处理分支。
+- **当前痛点/短板**：
+  - `saveData()` 还在手动 `bw.close()`，没用 try-with-resources。
+  - 菜单顺序不直观：5是退出、6是保存，用户容易来不及保存就退出。
+  - 退出用的是 `System.exit(0)`，建议改成 `return`。
 
 ## ✅ 已完成进度
 ### 第1天（2026-09-18）
@@ -73,12 +79,31 @@
 - ✅ 学习多态：编译看左边，运行看右边，三个前提（继承、重写、父类引用指向子类对象）。
 - ✅ 本地 IDE 搭测试环境：重构成 `buildList(ArrayList<Integer>)`，自己用 Scanner 输入构建链表，用快慢指针本地跑 142，并手动造环验证。
 - 💡 卡点复盘：`buildList` 里 `cur` 初始化成 `null` 会 NPE，应指向 `dummy`；`reverse` 循环条件要跟着 `cur` 走；回文链表不能反转整条，因为会破坏原链表；本地测试链表时，要手动造环才能验证“有环”情况；找到入环点后要 `return`，避免死循环。
-- 💡 待办：回文链表的优化点（恢复链表、反转 `slow.next`）还没落地，可以第8天补。
+### 第8天（2026-10-07）
+- ✅ 回文链表优化：在判断完成后，用 `slow.next = reverse(secondHalf)` 恢复后半段，保住原链表结构。
+- ✅ 本地验证恢复效果：判断前后打印链表，确认结构一致。
+- ✅ 项目重构：抽出 `queryStudent(Scanner)` 和 `saveData()`，让 `main` 里的 `switch` 更干净。
+- ✅ 去掉 `addStudent`、`deleteStudent`、`updateStudent` 里的 `ArrayList<Student>` 参数，直接用静态成员变量 `students`。
+- ✅ `queryStudent` 支持“查看全部”和“按学号查询”，用 `if / else if / else` 处理分支。
+- ✅ 把 `loadData`、`saveData` 改成 `private static`，减少对外暴露。
+- ✅ 修 bug：两个独立的 `if` 会导致选“查看全部”时误报“输入有误”，改成 `else if` 后分支互斥，逻辑正确。
+- 💡 卡点复盘：
+  - `if` / `if` 是并列的，`if` / `else if` / `else` 才是互斥的。`else` 应该挂在“用户选了什么”上，不是挂在“学生有没有找到”上。
+  - 找到学生后直接 `return`，能少一个 `found` 标记变量，逻辑更直白。
+  - `System.exit(0)` 会直接杀掉 JVM，`finally` 块不执行，能不用就不用，优先 `return`。
+- 💡 待办（第9天开头顺手收）：
+  - `saveData()` 改成 try-with-resources。
+  - 菜单顺序调整：保存放 5，退出放 6。
+  - 退出用 `return` 代替 `System.exit(0)`，并且退出前自动 `saveData()`。
 
-## 🚀 下一步最小行动（第8天预排）
-- 算法：继续优化回文链表（恢复链表 + 反转 `slow.next`），或者做一道新的链表题。
-- 项目：继续抽 `case 2`（查询）和 `case 6`（保存数据），让 `main` 里的 `switch` 只剩一行行方法调用。
-- 小提醒：`students` 已是静态成员变量，`addStudent` 等方法里的 `students` 参数可以省掉，明天可以想想哪种更清爽。
+## 🚀 下一步最小行动（第9天预排）
+- **收尾三件小事（15分钟内）**：
+  1. `saveData()` 改成 try-with-resources。
+  2. 菜单顺序调整：保存放 5，退出放 6。
+  3. `case 6` 退出改成 `return`，并先调用 `saveData()`。
+- **算法**：做一道新的链表题，或者进入“栈 / 队列”专题（如 LeetCode 20 有效括号复习、232 用栈实现队列、225 用队列实现栈）。
+- **项目**：收尾后，可以考虑给 `StudentManage` 加“按年龄排序”“按姓名模糊查询”等小功能，作为项目亮点。
+- **小提醒**：`students` 是静态成员变量，以后写新方法时直接访问，不要再传参了。
 
 ## 🐍 每日Python“安全锁”规则（试运行）
 - **前提**：Java的3小时任务必须全部完成。如果Java没完成，Python直接取消，不商量。
@@ -86,7 +111,7 @@
 - **状态**：如果你今天Java学完已经很累了，Python直接跳过。休息也是任务的一部分。
 - **内容**：只学Python基础语法（变量、循环、函数、列表字典）。绝对不准提前碰LLM API或LangChain。
 - **心态**：这是“奖金”，不是“工资”。拿到了开心，没拿到也不扣分。
-- **第8天Python加餐任务**：学习Python的变量和基本类型，对比Java的差异；用Python写一个“输入姓名和年龄，打印一句话”的小程序。
+- **第9天Python加餐任务**：学习Python的 `if / elif / else` 和 `for` 循环，对比Java的 `if / else if / else` 和 `for` 循环；用Python写一个“1到10求和”的小程序。
 
 ## 🧪 周末探索模块（可选，不占用主线）
 - **目标**：为2027校招增加“Java后端+AI应用”差异化竞争力，不替代Java主线。

@@ -24,7 +24,7 @@
 
 ## 🎯 总目标与当前阶段
 - **总目标**：2026.12前完成Java核心+LeetCode 100题+第一个Spring Boot项目，开始投日常实习。
-- **当前阶段**：第1阶段：Java基础与算法入门，第1周第8天（已完成），准备进入第9天。
+- **当前阶段**：第1阶段：Java基础与算法入门，第1周第9天（已完成），准备进入第10天。
 
 ## 🗂️ 当前核心项目：控制台学生管理系统
 - **项目路径**：`D:\第一个Java项目\java-learning`
@@ -35,10 +35,11 @@
     - 静态成员变量 `private static ArrayList<Student> students`。
     - 已抽出的方法：`addStudent(Scanner)`、`deleteStudent(Scanner)`、`updateStudent(Scanner)`、`queryStudent(Scanner)`、`saveData()`、`loadData()`。
     - `queryStudent` 支持“查看全部”和“按学号查询”，用 `if / else if / else` 处理分支。
-- **当前痛点/短板**：
-  - `saveData()` 还在手动 `bw.close()`，没用 try-with-resources。
-  - 菜单顺序不直观：5是退出、6是保存，用户容易来不及保存就退出。
-  - 退出用的是 `System.exit(0)`，建议改成 `return`。
+- **当前状态**：已完成收尾优化。
+  - ✅ `saveData()` 已改为 try-with-resources，自动关闭资源。
+  - ✅ 菜单顺序已调整：5. 保存数据，6. 退出。
+  - ✅ 退出改为 `return`，且退出前自动调用 `saveData()`，去掉了 `System.exit(0)`。
+- **可扩展亮点（下一步）**：按年龄排序、按姓名模糊查询等。
 
 ## ✅ 已完成进度
 ### 第1天（2026-09-18）
@@ -95,10 +96,19 @@
   - Python 里 `input()` 默认返回字符串，做数字运算必须手动 `int()` 转换。
   - Java 里 `"age" + 18` 会自动把 18 转成字符串；Python 里 `+` 拼接数字和字符串会直接报 `TypeError`。
   - Python 用 `f"名字{name}, 年龄{age}"` 比用 `+` 拼接干净得多。
-- 💡 待办（第9天开头顺手收）：
-  - `saveData()` 改成 try-with-resources。
-  - 菜单顺序调整：保存放 5，退出放 6。
-  - 退出用 `return` 代替 `System.exit(0)`，并且退出前自动 `saveData()`。
+### 第9天（2026-10-10）
+- ✅ LeetCode 232《用栈实现队列》：两个栈 `inStack`/`outStack`，出队时倒数据。修复了 `peek()` 中 `while` 条件缺少 `!` 的 bug（`while(inStack.isEmpty())` 应为 `while(!inStack.isEmpty())`），AC。
+- ✅ LeetCode 225《用队列实现栈》：一个队列，`push` 时把新元素绕到队头。循环次数为 `size - 1`，修复了 `for` 循环初始化 `int j=0` 和条件 `j < i - 1`，AC。
+- ✅ 学生管理系统收尾三件小事：
+  1. `saveData()` 改为 try-with-resources，删掉手动 `close()`，并清理了 `try(...)` 里多余的分号。
+  2. 菜单顺序调整：5 保存数据，6 退出。
+  3. `case 6` 退出改为 `return`，并先调用 `saveData()`，去掉 `System.exit(0)`。
+- ✅ Git 提交推送成功：`Day9: 完成LeetCode 232和225，学生管理系统try-with-resources收尾、菜单调整、退出自动保存`。
+- 💡 卡点复盘：
+  - `peek()` 里 `while(inStack.isEmpty())` 少了一个 `!`，导致 `outStack` 仍为空就 `peek()`，报 `NoSuchElementException`。遇到 `NoSuchElementException` 先问：我在哪个容器上调的？它是不是空的？
+  - `MyStack` 用队列实现栈时，`push` 的绕圈循环次数应为 `size - 1`，多绕一次会把新元素也绕到队尾，等于白绕。
+  - `for` 循环初始化 `int j=0` 不能漏，否则编译不通过。
+  - `try(...)` 里只有一个资源时结尾不需要分号。
 
 ## 🐍 Python 学习进度存档
 - **第8天（2026-10-07）**：
@@ -106,16 +116,15 @@
   - 学习基本类型：`int`、`float`、`str`、`bool`（注意 `True` / `False` 首字母大写）。
   - 写小程序：输入姓名和年龄，打印一句话。
   - 踩坑：`input()` 返回字符串，年龄必须用 `int()` 转换；字符串拼接数字会报 `TypeError`，改用 `f-string` 解决。
-  - 下一步（第9天）加餐任务：学习 Python 的 `if / elif / else` 和 `for` 循环，对比 Java 的写法；用 Python 写一个“1到10求和”的小程序。
+- **第9天（2026-10-10）**：
+  - 计划加餐：学习 `if / elif / else` 和 `for` 循环，对比 Java 写法；写“1到10求和”小程序。
+  - （如果未完成，顺延至第10天。）
 
-## 🚀 下一步最小行动（第9天预排）
-- **收尾三件小事（15分钟内）**：
-  1. `saveData()` 改成 try-with-resources。
-  2. 菜单顺序调整：保存放 5，退出放 6。
-  3. `case 6` 退出改成 `return`，并先调用 `saveData()`。
-- **算法**：做一道新的链表题，或者进入“栈 / 队列”专题（如 LeetCode 20 有效括号复习、232 用栈实现队列、225 用队列实现栈）。
-- **项目**：收尾后，可以考虑给 `StudentManage` 加“按年龄排序”“按姓名模糊查询”等小功能，作为项目亮点。
-- **Python加餐**：学 `if / elif / else` 和 `for` 循环，写一个“1到10求和”的程序。
+## 🚀 下一步最小行动（第10天预排）
+- **算法**：复习栈和队列（232、225），或做 LeetCode 20《有效的括号》复习，或尝试 150《逆波兰表达式求值》（栈的经典应用）。
+- **项目**：给 `StudentManage` 加一个小功能，如“按年龄排序”或“按姓名模糊查询”，作为项目亮点。
+- **Python加餐**：完成 `if / elif / else` 和 `for` 循环，写“1到10求和”；如果第9天已做，则学习 `while` 循环或列表。
+- **Git**：保持每天 commit。
 
 ## 🐍 每日Python“安全锁”规则（试运行）
 - **前提**：Java的3小时任务必须全部完成。如果Java没完成，Python直接取消，不商量。

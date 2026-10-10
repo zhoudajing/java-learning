@@ -119,14 +119,12 @@ public class StudentManage {
 
     }
     private static void saveData(){
-        try{
-            BufferedWriter bw =new BufferedWriter(new FileWriter("students.txt"));
-            for(int i=0;i<students.size();i++){
-                Student s=students.get(i);
+        try(BufferedWriter bw =new BufferedWriter(new FileWriter("students.txt"))){
+
+            for(Student s:students){
                 bw.write(s.getName()+","+s.getId()+","+s.getAge());
                 bw.newLine();
             }
-            bw.close();
             System.out.println("数据保存成功");
         }catch (IOException e){
             System.out.println("数据保存失败");
@@ -145,8 +143,8 @@ public class StudentManage {
             System.out.println("2. 查询学生");
             System.out.println("3. 删除学生");
             System.out.println("4. 修改学生"); // 新增
-            System.out.println("5. 退出");
-            System.out.println("6. 保存数据");
+            System.out.println("5. 保存数据");
+            System.out.println("6. 退出");
             int choice = input.nextInt();
             switch(choice){
                 case 1:
@@ -163,11 +161,11 @@ public class StudentManage {
                         break;
                 case 5:
                     saveData();
-                    System.out.print("退出系统");
-                    System.exit(0);
+                    break;
                 case 6:
                     saveData();
-                    break;
+                    return;
+
                 default:
                     System.out.print("输出有误，请重新输入");
 
